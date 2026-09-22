@@ -1,0 +1,31 @@
+"use server"
+import { cookies } from "next/headers"
+
+export const getMe=async()=>{
+
+    const getCookie=await cookies()
+    const accessToken=getCookie.get("accessToken")?.value
+    if(!accessToken){
+        return {
+            success:false,
+            message:"User not logged"
+        }
+    }
+
+    const res=await fetch(`${process.env.BACKEND_API_URL}/api/users/me`,{
+        headers:{
+            Cookie:`accessToken=${accessToken}`
+        },
+
+        cache:"force-cache",
+        next:{
+            revalidate:60*60*24,
+            tags:["my-profile"]
+        }
+    })
+
+    const result=res.json()
+    // console.log(result);
+    return result
+
+}
