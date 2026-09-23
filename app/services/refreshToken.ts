@@ -1,20 +1,8 @@
 "use server"
 
-import { cookies } from "next/headers";
 
-export const getNewAccessToken = async () => {
-    const cookieStore = await cookies();
+export const getNewAccessToken = async (refreshToken :string) => {
 
-    const refreshToken = cookieStore.get("refreshToken")?.value || null;
-
-    if(!refreshToken){
-        // throw new Error("User Not Logged In!");
-
-        return {
-            success : false,
-            message : "Refresh token not found!"
-        }
-    }
 
     const res = await fetch(`${process.env.BACKEND_API_URL}/api/auth/refresh-token`, {
         method: "POST",
