@@ -104,7 +104,7 @@ export const STATIC_FEATURED_SERVICES: IService[] = [
 
 export default async function FeaturedServices() {
  const result=await getServiceAction();
- console.log(result);
+//  console.log(result);
  if(!result.success || !result.data.length){
 return(<p>No featured services available.</p>)
  }

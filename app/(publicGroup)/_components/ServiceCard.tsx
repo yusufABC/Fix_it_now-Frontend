@@ -38,11 +38,7 @@ export default function ServiceCard({ service }: { service: IService }) {
 ...
 
 {/* Button links to details */}
-<Link href={`/services/${service.id}`}>
-  <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl">
-    View Details
-  </Button>
-</Link>
+
         <p className="text-sm text-gray-500 mt-2 line-clamp-2 leading-relaxed">
           {service.description}
         </p>
@@ -61,11 +57,11 @@ export default function ServiceCard({ service }: { service: IService }) {
           <span className="text-2xl font-black text-gray-900">${service.price}</span>
         </div>
 
-        <Link href={`/dashboard`}>
-          <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl">
-            Book Service
-          </Button>
-        </Link>
+    <Link href={`/services/${service.id}`}>
+  <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl">
+    View Details
+  </Button>
+</Link>
       </div>
     </Card>
   );

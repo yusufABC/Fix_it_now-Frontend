@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useActionState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import { createBookingAction } from "@/app/(dashboardGroup)/dashboard/_actions/createBookingAction";
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -17,33 +18,20 @@ export default function BookingModal({
   onClose,
   preselectedServiceId,
 }: BookingModalProps) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  // Using useActionState just like your other components
+  const [state, action, pending] = useActionState(createBookingAction, null);
+  useEffect(() => {
+    if (!state) return;
+
+    if (state.success) {
+      toast.success(state.message || "Booking request sent successfully!");
+      onClose(); // Automatically close modal on success
+    } else {
+      toast.error(state.message || "Failed to submit booking");
+    }
+  }, [state, onClose]);
 
   if (!isOpen) return null;
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    const formData = new FormData(e.currentTarget);
-    const scheduledAt = formData.get("scheduledAt");
-    const address = formData.get("address");
-    const notes = formData.get("notes");
-
-    console.log("Booking submitted:", {
-      serviceId: preselectedServiceId,
-      scheduledAt,
-      address,
-      notes,
-    });
-
-    // Simulated success for now (later connect to your server action)
-    setTimeout(() => {
-      setIsSubmitting(false);
-      toast.success("Booking request sent successfully!");
-      onClose();
-    }, 600);
-  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
@@ -53,7 +41,9 @@ export default function BookingModal({
           Select your preferred time slot and enter your location details.
         </p>
 
-        <form onSubmit={handleSubmit} className="mt-5 space-y-4">
+        {/* Form driven by server action */}
+        <form action={action} className="mt-5 space-y-4">
+          {/* Hidden service ID */}
           <input
             type="hidden"
             name="serviceId"
@@ -96,12 +86,12 @@ export default function BookingModal({
               type="button"
               variant="outline"
               onClick={onClose}
-              disabled={isSubmitting}
+              disabled={pending}
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Requesting..." : "Confirm Booking"}
+            <Button type="submit" disabled={pending}>
+              {pending ? "Submitting..." : "Confirm Booking"}
             </Button>
           </div>
         </form>

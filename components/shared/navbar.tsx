@@ -20,8 +20,8 @@ import { useRouter } from 'next/navigation'
 import { Button } from '../ui/button'
 
 const navItems = [
-  { label: 'Overview', href: '#top' },
-  { label: 'Projects', href: '#projects' },
+  { label: 'Services', href: '/services' },
+  { label: 'Dashboard', href: '/dashboard' },
   { label: 'Resources', href: '#resources' },
 ]
 

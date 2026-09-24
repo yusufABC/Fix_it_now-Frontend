@@ -8,6 +8,7 @@ import { toast } from "sonner";
 // import { cencelBookingAction } from "../_actions/bookingAction";
 // import { payBookingAction } from "../_actions/payBookingAction";
 import { HandlePayButton } from "./HandlePayButton";
+import HandleCancelButton from "./HandleCancelButton";
 
 // Colored status badge
 function StatusBadge({ status }: { status: BookingStatus }) {
@@ -99,6 +100,10 @@ export default function BookingCard({ booking }: { booking: IBooking }) {
             Cancel Booking
           </Button>
         )} */}
+        {booking.status==='REQUESTED' &&(
+
+        <HandleCancelButton bookingId={booking.id} />
+        )}
 
         {/* Pay button: Only on ACCEPTED */}
         {booking.status === "ACCEPTED" && (

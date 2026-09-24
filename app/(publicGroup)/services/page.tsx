@@ -11,7 +11,7 @@ import { getServiceAction } from "../_actions/publicActions";
 export default async function ServicesCatalogPage() {
 const result=await getServiceAction()
 const services:IService[]=result.success ? result.data:[]
-console.log(services);
+// console.log(services);
 
   return (
     <div className="min-h-screen bg-gray-50/50 py-10">
