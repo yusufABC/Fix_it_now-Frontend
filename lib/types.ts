@@ -84,3 +84,13 @@ export interface IBooking {
     };
   };
 }
+
+export interface IBooking {
+  id: string;
+  // ... other fields
+  review?: {
+    id: string;
+    rating: number;
+    comment: string | null;
+  } | null;
+}
