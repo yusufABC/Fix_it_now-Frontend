@@ -22,7 +22,8 @@ import { Button } from '../ui/button'
 const navItems = [
   { label: 'Services', href: '/services' },
   { label: 'Dashboard', href: '/dashboard' },
-  { label: 'Resources', href: '#resources' },
+  { label: 'Technician', href: '/technician-dashboard' },
+
 ]
 
 

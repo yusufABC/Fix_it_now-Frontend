@@ -94,3 +94,43 @@ export interface IBooking {
     comment: string | null;
   } | null;
 }
+
+
+
+// Technician part
+
+export interface ITechBookingItem {
+  id: string;
+  scheduledAt: string;
+  address: string;
+  notes: string | null;
+  status: BookingStatus;
+  totalAmount: number;
+  service: {
+    title: string;
+    price: number;
+  };
+  customer: {
+    name: string;
+    email: string;
+  };
+}
+export interface ICategoryForTechnicianServiceCreate {
+  id: string;
+ name:string
+description?:string
+imageUrl?:string
+}
+
+export type CreateServiceState = {
+  success: boolean;
+  message?: string;
+  data?: unknown;
+} | null;
+
+
+export type BookingStatusState = {
+  success: boolean;
+  message?: string;
+  data?: unknown;
+} | null;

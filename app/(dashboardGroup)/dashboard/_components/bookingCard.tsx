@@ -70,40 +70,55 @@ export default function BookingCard({ booking }: { booking: IBooking }) {
         )}
       </div>
 
-      {/* Action Buttons */}
-      <div className="flex items-center justify-end gap-2 pt-3 border-t border-gray-100">
-        {/* Cancel button: on REQUESTED or ACCEPTED */}
-        {(booking.status === "REQUESTED" || booking.status === "ACCEPTED") && (
-          <HandleCancelButton bookingId={booking.id} />
-        )}
+{/* Conditional Action Buttons */}
+<div className="flex items-center justify-end gap-2 pt-3 border-t border-gray-100">
+  
+  {/* 1. Cancel button: Only allowed on REQUESTED or ACCEPTED */}
+  {(booking.status === "REQUESTED" || booking.status === "ACCEPTED") && (
+    <HandleCancelButton bookingId={booking.id} />
+  )}
 
-        {/* Pay button: only on ACCEPTED */}
-        {booking.status === "ACCEPTED" && (
-          <HandlePayButton bookingId={booking.id} />
-        )}
+  {/* 2. Pay button: ONLY on ACCEPTED (Disappears the moment status is PAID) */}
+  {booking.status === "ACCEPTED" && (
+    <HandlePayButton bookingId={booking.id} />
+  )}
 
-        {/* Review button: ONLY on COMPLETED */}
-        {booking.status === "COMPLETED" && (
-          isReviewed ? (
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={() => toast.info("You have already reviewed this service.")}
-              className="bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100 font-medium"
-            >
-              ✓ Reviewed
-            </Button>
-          ) : (
-            <Button
-              size="sm"
-              onClick={() => setReviewOpen(true)}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold"
-            >
-              ⭐ Leave Review
-            </Button>
-          )
-        )}
-      </div>
+  {/* 3. Paid Indicator: Shown when paid, so user knows they cannot pay again */}
+  {booking.status === "PAID" && (
+    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-purple-50 text-purple-700 border border-purple-200">
+      ✓ Payment Confirmed • Waiting for Tech
+    </span>
+  )}
+
+  {/* 4. In Progress Indicator */}
+  {booking.status === "IN_PROGRESS" && (
+    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200 animate-pulse">
+      🛠️ Technician Working On-Site
+    </span>
+  )}
+
+  {/* 5. Review button: ONLY on COMPLETED */}
+  {booking.status === "COMPLETED" && (
+    isReviewed ? (
+      <Button
+        size="sm"
+        variant="outline"
+        onClick={() => toast.info("You have already reviewed this service.")}
+        className="bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100 font-medium"
+      >
+        ✓ Reviewed
+      </Button>
+    ) : (
+      <Button
+        size="sm"
+        onClick={() => setReviewOpen(true)}
+        className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold"
+      >
+        ⭐ Leave Review
+      </Button>
+    )
+  )}
+</div>
 
       <ReviewModal
         isOpen={reviewOpen}
