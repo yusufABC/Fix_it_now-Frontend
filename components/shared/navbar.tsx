@@ -110,7 +110,12 @@ export function Navbar({ user }: NavbarProps) {
             Home
           </Link>
 
-     
+          {/* Services Link: Visible to Public Guests and Customers */}
+          {(!userRole || userRole === 'CUSTOMER') && (
+            <Link href="/services" className={getNavLinkClass('/services')}>
+              Services
+            </Link>
+          )}
 
           {/* Dynamic role-based dashboard link (Only appears if user is logged in) */}
           {user?.success && (
